@@ -9,6 +9,7 @@ void push(stack_t **stack, unsigned int line_number)
 {
 	int value;
 	char *arg = strtok(NULL, " \t\n");
+
 	stack_t *new_node;
 
 	if (arg == NULL || !is_integer(arg))
@@ -44,7 +45,7 @@ void push(stack_t **stack, unsigned int line_number)
 void pall(stack_t **stack, unsigned int line_number)
 {
 	stack_t *current = *stack;
-	 
+
 	(void)line_number;
 
 
@@ -63,23 +64,23 @@ void pall(stack_t **stack, unsigned int line_number)
 int is_integer(const char *str)
 {
 	if (str == NULL || *str == '\0')
-		return 0;
+		return (0);
 
 	if (*str == '-')
 		str++;
 
 	if (*str == '\0')
-		return 0;
+		return (0);
 
 	while (*str != '\0')
 	{
 		if (*str < '0' || *str > '9')
-			return 0;
+			return (0);
 
 		str++;
 	}
 
-	return 1;
+	return (1);
 }
 
 /**
@@ -93,7 +94,9 @@ void free_stack(stack_t *stack)
 	while (current != NULL)
 	{
 		stack_t *temp = current;
+
 		current = current->next;
+
 		free(temp);
 	}
 }
