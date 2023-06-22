@@ -6,6 +6,11 @@
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
+#include <ctype.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <limits.h>
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -44,5 +49,6 @@ void execute_bytecode(char *filename);
 void process_instruction(char *opcode, char *arg, unsigned int line_number);
 void free_stack(stack_t **stack);
 void pint(stack_t **stack, unsigned int line_number);
+void pop(stack_t **stack, unsigned int line_number);
 
 #endif /* MONTY_H */
