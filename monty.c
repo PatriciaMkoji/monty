@@ -7,6 +7,13 @@ void execute_bytecode(char *filename);
 void process_instruction(char *opcode, char *arg, unsigned int line_number);
 void free_stack(stack_t **stack);
 
+/**
+ * main - Entry point of the Monty interpreter
+ * @argc: number of command-line arguments
+ * @argv: array of strings containing the command-line arguments
+ *
+ * Return: 0 on success, otherwise an error code
+ */
 int main(int argc, char *argv[])
 {
 	char *filename;
@@ -23,6 +30,12 @@ int main(int argc, char *argv[])
 	return (EXIT_SUCCESS);
 }
 
+/**
+ * execute_bytecode - Executes the Monty bytecode instructions from a file
+ * @filename: name of the file containing the Monty bytecode
+ *
+ * Return: None
+ */
 void execute_bytecode(char *filename)
 {
 	FILE *file;
@@ -62,6 +75,14 @@ void execute_bytecode(char *filename)
 	fclose(file);
 }
 
+/**
+ * process_instruction - Processes a single Monty bytecode instruction
+ * @opcode: opcode of the instruction
+ * @arg: argument of the instruction (if any)
+ * @line_number: line number of the instruction in the bytecode file
+ *
+ * Return: None
+ */
 void process_instruction(char *opcode, char *arg, unsigned int line_number)
 {
 	int value;
@@ -93,6 +114,12 @@ void process_instruction(char *opcode, char *arg, unsigned int line_number)
 	}
 }
 
+/**
+ * free_stack - Frees a stack (doubly linked list)
+ * @stack: A double pointer to the top of the stack
+ *
+ * Return: None
+ */
 void free_stack(stack_t **stack)
 {
 	stack_t *current = *stack;
