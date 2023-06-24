@@ -47,7 +47,7 @@ void execute_bytecode(char *filename)
 	unsigned int line_number;
 	char *opcode;
 	char *arg;
-	stack_t *stack;
+	/* stack_t *stack; */
 
 	file = fopen(filename, "r");
 	if (file == NULL)
@@ -73,10 +73,10 @@ void execute_bytecode(char *filename)
 		}
 	}
 
-	free(line);
+	/* free(line); */
 	free_stack(&stack);
-	fclose(file);
 	free(line);
+	fclose(file);
 }
 
 /**
@@ -139,7 +139,6 @@ void free_stack(stack_t **stack)
 		current = current->next;
 		free(temp);
 	}
-	free(temp);
 
 	*stack = NULL;
 }
@@ -152,7 +151,7 @@ int arg_valid(char *arg)
 	}
 	while(*arg != '\0')
 	{
-		if (*arg < '0' || *arg > '9')
+		if (*arg <= '0' || *arg >= '9')
 		{
 			return (0);
 		}
