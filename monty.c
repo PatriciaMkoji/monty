@@ -53,6 +53,7 @@ void execute_bytecode(char *filename)
 	if (file == NULL)
 	{
 		fprintf(stderr, "Error: Can't open file %s\n", filename);
+		free(line);
 		exit(EXIT_FAILURE);
 	}
 
@@ -75,8 +76,9 @@ void execute_bytecode(char *filename)
 
 	/* free(line); */
 	free_stack(&stack);
-	free(line);
+	free_stack(&stack);
 	fclose(file);
+	free(line);
 }
 
 /**
@@ -137,6 +139,8 @@ void free_stack(stack_t **stack)
 	{
 		temp = current;
 		current = current->next;
+		temp->prev = NULL;
+		temp->next = NULL;
 		free(temp);
 	}
 
