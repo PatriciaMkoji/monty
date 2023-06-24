@@ -93,7 +93,7 @@ void process_instruction(char *opcode, char *arg, unsigned int line_number)
 
 	if (strcmp(opcode, "push") == 0)
 	{
-		if (arg == NULL)
+		if (!arg_valid(arg))
 		{
 			fprintf(stderr, "L%u: usage: push integer\n", line_number);
 			exit(EXIT_FAILURE);
@@ -141,3 +141,20 @@ void free_stack(stack_t **stack)
 
 	*stack = NULL;
 }
+
+int arg_valid(char *arg)
+{
+	if (arg == NULL)
+	{
+		return (0);
+	}
+	while(*arg != '\0')
+	{
+		if (*arg < '0' || *arg > '9')
+		{
+			return (0);
+		}
+		arg++;
+	}
+	return (1);
+}	
