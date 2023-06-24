@@ -89,7 +89,7 @@ void execute_bytecode(char *filename)
 void process_instruction(char *opcode, char *arg, unsigned int line_number)
 {
 	int value;
-	stack_t *stack;
+	/* stack_t *stack; */
 
 	if (strcmp(opcode, "push") == 0)
 	{
@@ -109,6 +109,10 @@ void process_instruction(char *opcode, char *arg, unsigned int line_number)
 	else if (strcmp(opcode, "pint") == 0)
 	{
 		pint(&stack, line_number);
+	}
+	else if (strcmp(opcode, "swap") == 0)
+	{
+		swap(&stack, line_number);
 	}
 	else
 	{
