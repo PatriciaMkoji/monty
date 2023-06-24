@@ -76,6 +76,7 @@ void execute_bytecode(char *filename)
 	free(line);
 	free_stack(&stack);
 	fclose(file);
+	free(line);
 }
 
 /**
@@ -138,6 +139,7 @@ void free_stack(stack_t **stack)
 		current = current->next;
 		free(temp);
 	}
+	free(temp);
 
 	*stack = NULL;
 }
