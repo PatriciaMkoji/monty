@@ -150,7 +150,7 @@ int arg_valid(char *arg)
 	}
 	while(*arg != '\0')
 	{
-		if (*arg < '0' || *arg > '9')
+		if (*arg <= '0' || *arg >= '9')
 		{
 			return (0);
 		}
