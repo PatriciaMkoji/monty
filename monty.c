@@ -74,11 +74,11 @@ void execute_bytecode(char *filename)
 		}
 	}
 
-	/* free(line); */
+	free(line);
 	free_stack(&stack);
 	free_stack(&stack);
 	fclose(file);
-	free(line);
+	/* free(line); */
 }
 
 /**
