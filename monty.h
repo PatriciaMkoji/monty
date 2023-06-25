@@ -55,6 +55,8 @@ void add(stack_t **stack, unsigned int line_number);
 void nop(stack_t **stack, unsigned int line_number);
 int arg_valid(char *arg);
 void sub(stack_t **stack, unsigned int line_number);
+void div_op(stack_t **stack, unsigned int line_number);
+void mul_op(stack_t **stack, unsigned int line_number);
 
 extern stack_t *stack;
 

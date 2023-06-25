@@ -69,10 +69,10 @@ void execute_bytecode(char *filename)
 
 		if (opcode != NULL)
 		{
-				/* free(line);  added free */
-				free_stack(&stack);
-				/* fclose(file);  aded free */
-				/* exit(EXIT_FAILURE); */
+			/* free(line);  added free */
+			free_stack(&stack);
+			/* fclose(file);  aded free */
+			/* exit(EXIT_FAILURE); */
 			process_instruction(opcode, arg, line_number);
 		}
 	}
