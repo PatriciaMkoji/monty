@@ -99,6 +99,7 @@ void execute_bytecode(char *filename)
 void process_instruction(char *opcode, char *arg, unsigned int line_number)
 {
 	int value;
+	char *endptr;
 	/* stack_t *stack; */
 
 	if (strcmp(opcode, "push") == 0)
@@ -110,7 +111,13 @@ void process_instruction(char *opcode, char *arg, unsigned int line_number)
 			exit(EXIT_FAILURE);
 		}
 
-		value = atoi(arg);
+		value = strtol(arg, &endptr, 10);
+		if (*endptr != '\0')
+		{
+			fprintf(stderr, "L%u: usage: push integer\n", line_number);
+			free_stack(&stack);
+			exit(EXIT_FAILURE);
+		}
 		push(&stack, line_number, value);
 	}
 	else if (strcmp(opcode, "pall") == 0)
@@ -162,9 +169,17 @@ int arg_valid(char *arg)
 	{
 		return (0);
 	}
+	if (*arg == '-')
+	{
+		arg++;
+	}
+	if (*arg == '\0')
+	{
+		return (0);
+	}
 	while (*arg != '\0')
 	{
-		if (*arg < '0' || *arg > '9')
+		if (!isdigit(*arg))
 		{
 			return (0);
 		}
