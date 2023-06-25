@@ -99,6 +99,7 @@ void process_instruction(char *opcode, char *arg, unsigned int line_number)
 		if (!arg_valid(arg))
 		{
 			fprintf(stderr, "L%u: usage: push integer\n", line_number);
+			free_stack(&stack); /* added free */
 			exit(EXIT_FAILURE);
 		}
 
@@ -120,6 +121,7 @@ void process_instruction(char *opcode, char *arg, unsigned int line_number)
 	else
 	{
 		fprintf(stderr, "L%u: unknown instruction %s\n", line_number, opcode);
+		free_stack(&stack); /* added line */
 		exit(EXIT_FAILURE);
 	}
 }
