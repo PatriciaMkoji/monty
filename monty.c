@@ -47,13 +47,12 @@ void execute_bytecode(char *filename)
 	unsigned int line_number;
 	char *opcode;
 	char *arg;
-	/* stack_t *stack; */
+	stack_t *stack;
 
 	file = fopen(filename, "r");
 	if (file == NULL)
 	{
 		fprintf(stderr, "Error: Can't open file %s\n", filename);
-		/* free(line); */
 		exit(EXIT_FAILURE);
 	}
 
@@ -70,22 +69,16 @@ void execute_bytecode(char *filename)
 
 		if (opcode != NULL)
 		{
-			if (!arg_valid(arg))
-			{
-				fprintf(stderr, "L%u: usage: push integer\n", line_number);
-				free(line); /* added free */
+				/* free(line);  added free */
 				free_stack(&stack);
-				fclose(file); /* aded free */
-				exit(EXIT_FAILURE);
-			}
+				/* fclose(file);  aded free */
+				/* exit(EXIT_FAILURE); */
 			process_instruction(opcode, arg, line_number);
 		}
 	}
-
 	free(line);
 	free_stack(&stack);
 	fclose(file);
-	/* free(line); */
 }
 
 /**
@@ -99,7 +92,6 @@ void execute_bytecode(char *filename)
 void process_instruction(char *opcode, char *arg, unsigned int line_number)
 {
 	int value;
-	char *endptr;
 	/* stack_t *stack; */
 
 	if (strcmp(opcode, "push") == 0)
@@ -111,13 +103,7 @@ void process_instruction(char *opcode, char *arg, unsigned int line_number)
 			exit(EXIT_FAILURE);
 		}
 
-		value = strtol(arg, &endptr, 10);
-		if (*endptr != '\0')
-		{
-			fprintf(stderr, "L%u: usage: push integer\n", line_number);
-			free_stack(&stack);
-			exit(EXIT_FAILURE);
-		}
+		value = atoi(arg);
 		push(&stack, line_number, value);
 	}
 	else if (strcmp(opcode, "pall") == 0)
@@ -135,7 +121,6 @@ void process_instruction(char *opcode, char *arg, unsigned int line_number)
 	else
 	{
 		fprintf(stderr, "L%u: unknown instruction %s\n", line_number, opcode);
-		free_stack(&stack); /* added line */
 		exit(EXIT_FAILURE);
 	}
 }
@@ -169,21 +154,13 @@ int arg_valid(char *arg)
 	{
 		return (0);
 	}
-	if (*arg == '-')
+	while(*arg != '\0')
 	{
-		arg++;
-	}
-	if (*arg == '\0')
-	{
-		return (0);
-	}
-	while (*arg != '\0')
-	{
-		if (!isdigit(*arg))
+		if (*arg < '0' || *arg > '9')
 		{
 			return (0);
 		}
 		arg++;
 	}
 	return (1);
-}
+}	
