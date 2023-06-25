@@ -53,7 +53,7 @@ void execute_bytecode(char *filename)
 	if (file == NULL)
 	{
 		fprintf(stderr, "Error: Can't open file %s\n", filename);
-		free(line);
+		/* free(line); */
 		exit(EXIT_FAILURE);
 	}
 
@@ -70,12 +70,19 @@ void execute_bytecode(char *filename)
 
 		if (opcode != NULL)
 		{
+			if (!arg_valid(arg))
+			{
+				fprintf(stderr, "L%u: usage: push integer\n", line_number);
+				free(line); /* added free */
+				free_stack(&stack);
+				fclose(file); /* aded free */
+				exit(EXIT_FAILURE);
+			}
 			process_instruction(opcode, arg, line_number);
 		}
 	}
 
 	free(line);
-	free_stack(&stack);
 	free_stack(&stack);
 	fclose(file);
 	/* free(line); */
@@ -155,13 +162,13 @@ int arg_valid(char *arg)
 	{
 		return (0);
 	}
-	while(*arg != '\0')
+	while (*arg != '\0')
 	{
-		if (*arg <= '0' || *arg >= '9')
+		if (*arg < '0' || *arg > '9')
 		{
 			return (0);
 		}
 		arg++;
 	}
 	return (1);
-}	
+}
