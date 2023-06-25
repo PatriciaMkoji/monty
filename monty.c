@@ -77,8 +77,8 @@ void execute_bytecode(char *filename)
 		}
 	}
 	free(line);
-	free_stack(&stack);
 	fclose(file);
+	free_stack(&stack);
 }
 
 /**
@@ -117,6 +117,10 @@ void process_instruction(char *opcode, char *arg, unsigned int line_number)
 	else if (strcmp(opcode, "swap") == 0)
 	{
 		swap(&stack, line_number);
+	}
+	else if (strcmp(opcode, "sub") == 0)
+	{
+		sub(&stack, line_number);
 	}
 	else
 	{
