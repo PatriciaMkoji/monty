@@ -61,6 +61,8 @@ void execute_bytecode(char *filename)
 	while (getline(&line, &line_size, file) != -1)
 	{
 		line_number++;
+		if (line[0] == '#')
+			continue;
 		opcode = strtok(line, DELIMITERS);
 		arg = strtok(NULL, DELIMITERS);
 
