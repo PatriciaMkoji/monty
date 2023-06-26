@@ -6,18 +6,13 @@
 void execute_bytecode(char *filename);
 void process_instruction(char *opcode, char *arg, unsigned int line_number);
 void free_stack(stack_t **stack);
-
+stack_t *stack = NULL;
 /**
  * main - Entry point of the Monty interpreter
  * @argc: number of command-line arguments
  * @argv: array of strings containing the command-line arguments
  * Return: 0 on success, otherwise an error code
  */
-/**
- * *stack - extern variable
- */
-stack_t *stack = NULL;
-
 int main(int argc, char *argv[])
 {
 	char *filename;
@@ -136,6 +131,10 @@ void process_instruction(char *opcode, char *arg, unsigned int line_number)
 	{
 		add(&stack, line_number);
 	}
+	else if (strcmp(opcode, "nop") == 0)
+	{
+		nop(&stack, line_number);
+	}
 	else if (strcmp(opcode, "sub") == 0)
 	{
 		sub(&stack, line_number);
@@ -170,7 +169,11 @@ void free_stack(stack_t **stack)
 
 	*stack = NULL;
 }
-
+/**
+ * arg_valid - Checks if the given argument is valid.
+ * @arg: The argument to validate.
+ * Return: 1 if the argument is valid, 0 otherwise.
+ */
 int arg_valid(char *arg)
 {
 	if (arg == NULL)
