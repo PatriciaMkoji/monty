@@ -11,10 +11,11 @@ void free_stack(stack_t **stack);
  * main - Entry point of the Monty interpreter
  * @argc: number of command-line arguments
  * @argv: array of strings containing the command-line arguments
- *
  * Return: 0 on success, otherwise an error code
  */
-
+/**
+ * *stack - extern variable
+ */
 stack_t *stack = NULL;
 
 int main(int argc, char *argv[])
@@ -29,6 +30,7 @@ int main(int argc, char *argv[])
 
 	filename = argv[1];
 	execute_bytecode(filename);
+	free_stack(&stack);
 
 	return (EXIT_SUCCESS);
 }
@@ -76,9 +78,17 @@ void execute_bytecode(char *filename)
 			process_instruction(opcode, arg, line_number);
 		}
 	}
-	free(line);
+	if (ferror(file))
+	{
+		fprintf(stderr, "Error reading from file %s\n", filename);
+		free_stack(&stack);
+		fclose(file);
+		free(line);
+		exit(EXIT_FAILURE);
+	}
 	fclose(file);
 	free_stack(&stack);
+	free(line);
 }
 
 /**
@@ -114,9 +124,17 @@ void process_instruction(char *opcode, char *arg, unsigned int line_number)
 	{
 		pint(&stack, line_number);
 	}
+	else if (strcmp(opcode, "pop") == 0)
+	{
+		pop(&stack, line_number);
+	}
 	else if (strcmp(opcode, "swap") == 0)
 	{
 		swap(&stack, line_number);
+	}
+	else if (strcmp(opcode, "add") == 0)
+	{
+		add(&stack, line_number);
 	}
 	else if (strcmp(opcode, "sub") == 0)
 	{
@@ -125,6 +143,7 @@ void process_instruction(char *opcode, char *arg, unsigned int line_number)
 	else
 	{
 		fprintf(stderr, "L%u: unknown instruction %s\n", line_number, opcode);
+		free(arg);
 		exit(EXIT_FAILURE);
 	}
 }
@@ -158,7 +177,7 @@ int arg_valid(char *arg)
 	{
 		return (0);
 	}
-	while(*arg != '\0')
+	while (*arg != '\0')
 	{
 		if (*arg < '0' || *arg > '9')
 		{
@@ -167,4 +186,4 @@ int arg_valid(char *arg)
 		arg++;
 	}
 	return (1);
-}	
+}
